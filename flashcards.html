@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korean Flashcards — Jeemin Kim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── Base ── */
+        :root {
+            --bg:     #F5EFE4;
+            --dark:   #2C1810;
+            --brown:  #7B4F2E;
+            --rust:   #C1502E;
+            --gold:   #D4A843;
+            --cream:  #FBF7F0;
+            --mid:    #6B5B4E;
+            --rule:   #DDD0BC;
+            --white:  #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c1a06e' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            font-family: 'Lato', sans-serif;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Header ── */
+        header {
+            background: linear-gradient(160deg, #3B1F10 0%, #7B4F2E 100%);
+            color: #FAF0E0;
+            text-align: center;
+            padding: 2.5rem 1rem 2rem;
+        }
+
+        header .subtitle {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.4rem;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #FAF0E0;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: rgba(255,240,220,0.75);
+            font-style: italic;
+        }
+
+        /* ── Filter bar ── */
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1.25rem 1rem;
+            background: var(--cream);
+            border-bottom: 2px solid var(--rule);
+        }
+
+        .filter-btn {
+            background: var(--white);
+            border: 1.5px solid var(--rule);
+            color: var(--mid);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .filter-btn:hover { border-color: var(--rust); color: var(--rust); }
+        .filter-btn.active { background: var(--rust); border-color: var(--rust); color: #fff; }
+
+        /* ── Main ── */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2.5rem 1rem;
+        }
+
+        /* ── Progress ── */
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .progress-bar-track {
+            flex: 1;
+            height: 6px;
+            background: var(--rule);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--rust);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--mid);
+            white-space: nowrap;
+        }
+
+        /* ── Card ── */
+        .card-area {
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 2rem;
+        }
+
+        .flashcard {
+            background: var(--white);
+            border: 2px solid var(--rule);
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.09);
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 2rem;
+            cursor: pointer;
+            position: relative;
+            transition: box-shadow 0.2s, transform 0.15s;
+            user-select: none;
+            text-align: center;
+        }
+
+        .flashcard:hover {
+            box-shadow: 0 10px 32px rgba(0,0,0,0.13);
+            transform: translateY(-2px);
+        }
+
+        .flashcard:active { transform: translateY(0); }
+
+        .card-side-label {
+            position: absolute;
+            top: 1rem;
+            left: 1.25rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: var(--rust);
+        }
+
+        .card-category {
+            position: absolute;
+            top: 1rem;
+            right: 1.25rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--mid);
+            background: var(--bg);
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+        }
+
+        /* Korean side */
+        .korean-char {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .romanized {
+            font-size: 1.1rem;
+            color: var(--brown);
+            font-style: italic;
+            margin-bottom: 0.25rem;
+        }
+
+        .tap-hint {
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: var(--mid);
+            opacity: 0.7;
+        }
+
+        /* English side */
+        .english-word {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .english-note {
+            font-size: 0.85rem;
+            color: var(--mid);
+            font-style: italic;
+            max-width: 300px;
+        }
+
+        /* Revealed state */
+        .flashcard.revealed {
+            border-color: var(--gold);
+            background: #FFFBF3;
+        }
+
+        /* ── Controls ── */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            background: var(--rust);
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.6rem;
+            border-radius: 24px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            letter-spacing: 0.04em;
+        }
+
+        .btn:hover { background: var(--brown); }
+        .btn:active { transform: scale(0.97); }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--rust);
+            border: 2px solid var(--rust);
+        }
+
+        .btn-secondary:hover { background: var(--rust); color: #fff; }
+
+        /* ── Score ── */
+        .score-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-num {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--rust);
+        }
+
+        .score-lbl {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--mid);
+        }
+
+        /* ── Complete screen ── */
+        .complete-screen {
+            display: none;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .complete-screen.show { display: block; }
+        .card-area.hide, .controls.hide, .progress-row.hide { display: none; }
+
+        .complete-screen h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .complete-screen p {
+            color: var(--mid);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .big-score {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--rust);
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .big-score-label {
+            font-size: 0.8rem;
+            color: var(--mid);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--dark);
+            color: rgba(255,240,220,0.6);
+            text-align: center;
+            padding: 1.25rem;
+            font-size: 0.78rem;
+        }
+
+        footer a { color: var(--gold); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 520px) {
+            header h1 { font-size: 1.7rem; }
+            .flashcard { min-height: 230px; padding: 2rem 1.25rem; }
+            .korean-char { font-size: 2.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="subtitle">Learn Korean</div>
+        <h1>Korean Flashcards</h1>
+        <p>Tap the card to flip between Korean and English</p>
+    </header>
+
+    <div class="filter-bar">
+        <button class="filter-btn active" onclick="setFilter('all')">All</button>
+        <button class="filter-btn" onclick="setFilter('food')">🍜 Food</button>
+        <button class="filter-btn" onclick="setFilter('greetings')">👋 Greetings</button>
+        <button class="filter-btn" onclick="setFilter('places')">📍 Places</button>
+        <button class="filter-btn" onclick="setFilter('verbs')">⚡ Verbs</button>
+        <button class="filter-btn" onclick="setFilter('adjectives')">🎨 Adjectives</button>
+    </div>
+
+    <main>
+
+        <div class="progress-row" id="progressRow">
+            <span class="progress-label" id="progressLabel">1 / 10</span>
+            <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="progressFill" style="width: 10%"></div>
+            </div>
+        </div>
+
+        <div class="card-area" id="cardArea">
+            <div class="flashcard" id="flashcard" onclick="revealCard()">
+                <div class="card-side-label" id="sideLbl">Korean</div>
+                <div class="card-category" id="catLbl">Food</div>
+                <div class="korean-char" id="koreanChar">김치</div>
+                <div class="romanized" id="romanized">Kimchi</div>
+                <div class="tap-hint" id="tapHint">Tap to flip ↔</div>
+                <div class="english-word" id="englishWord" style="display:none;"></div>
+                <div class="english-note" id="englishNote" style="display:none;"></div>
+            </div>
+        </div>
+
+        <div class="controls" id="controls">
+            <button class="btn btn-secondary" onclick="markCard(false)">✗ Still learning</button>
+            <button class="btn" onclick="markCard(true)">✓ Got it!</button>
+        </div>
+
+        <div class="score-row">
+            <div class="score-item">
+                <div class="score-num" id="gotItCount">0</div>
+                <div class="score-lbl">Got It</div>
+            </div>
+            <div class="score-item">
+                <div class="score-num" id="learningCount">0</div>
+                <div class="score-lbl">Learning</div>
+            </div>
+            <div class="score-item">
+                <div class="score-num" id="remainCount">0</div>
+                <div class="score-lbl">Remaining</div>
+            </div>
+        </div>
+
+        <!-- Complete screen -->
+        <div class="complete-screen" id="completeScreen">
+            <div class="big-score" id="finalScore">0</div>
+            <div class="big-score-label">cards mastered</div>
+            <h2>Nice work! 잘했어요!</h2>
+            <p id="completeMsg">Keep practicing to master them all.</p>
+            <button class="btn" onclick="restartDeck()" style="margin-right: 0.5rem;">🔄 Restart</button>
+            <button class="btn btn-secondary" onclick="reviewLearning()">📖 Review Learning</button>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>Made by Jeemin Kim &mdash; <a href="cooking.html">← Korean Kitchen</a> &mdash; <a href="index.html">Resume</a></p>
+    </footer>
+
+    <script>
+        const allCards = [
+            // Food
+            { korean: '김치', romanized: 'Kimchi', english: 'Kimchi', note: 'Fermented spicy cabbage — a Korean staple', category: 'food' },
+            { korean: '비빔밥', romanized: 'Bibimbap', english: 'Mixed Rice Bowl', note: 'Rice topped with vegetables, egg, and gochujang', category: 'food' },
+            { korean: '불고기', romanized: 'Bulgogi', english: 'Marinated Beef', note: 'Thinly sliced beef grilled with soy and pear marinade', category: 'food' },
+            { korean: '떡볶이', romanized: 'Tteokbokki', english: 'Spicy Rice Cakes', note: 'Chewy rice cakes in a sweet-spicy sauce', category: 'food' },
+            { korean: '삼겹살', romanized: 'Samgyeopsal', english: 'Pork Belly', note: 'Grilled at the table, wrapped in lettuce', category: 'food' },
+            { korean: '된장찌개', romanized: 'Doenjang Jjigae', english: 'Soybean Paste Stew', note: 'Hearty fermented soybean stew with tofu and vegetables', category: 'food' },
+            { korean: '냉면', romanized: 'Naengmyeon', english: 'Cold Noodles', note: 'Buckwheat noodles served in icy broth', category: 'food' },
+            { korean: '갈비', romanized: 'Galbi', english: 'Short Ribs', note: 'Grilled marinated beef or pork ribs', category: 'food' },
+            // Greetings
+            { korean: '안녕하세요', romanized: 'Annyeonghaseyo', english: 'Hello', note: 'Formal greeting used in most situations', category: 'greetings' },
+            { korean: '감사합니다', romanized: 'Gamsahamnida', english: 'Thank you', note: 'Formal expression of gratitude', category: 'greetings' },
+            { korean: '죄송합니다', romanized: 'Joesonghamnida', english: 'I am sorry', note: 'Formal apology', category: 'greetings' },
+            { korean: '반갑습니다', romanized: 'Bangapseumnida', english: 'Nice to meet you', note: 'Said when meeting someone for the first time', category: 'greetings' },
+            { korean: '잘 지내요?', romanized: 'Jal jinaeyo?', english: 'How are you?', note: 'Casual way to ask how someone is doing', category: 'greetings' },
+            { korean: '잘 가요', romanized: 'Jal gayo', english: 'Goodbye (to one leaving)', note: 'Said to someone who is leaving', category: 'greetings' },
+            // Places
+            { korean: '학교', romanized: 'Hakgyo', english: 'School', note: 'Can refer to any level of school', category: 'places' },
+            { korean: '병원', romanized: 'Byeongwon', english: 'Hospital', note: 'Also used for clinics in everyday speech', category: 'places' },
+            { korean: '시장', romanized: 'Sijang', english: 'Market', note: 'Traditional outdoor or indoor market', category: 'places' },
+            { korean: '식당', romanized: 'Sikdang', english: 'Restaurant', note: 'General word for any eating establishment', category: 'places' },
+            { korean: '도서관', romanized: 'Doseogwan', english: 'Library', note: 'Public or school library', category: 'places' },
+            { korean: '공항', romanized: 'Gonghang', english: 'Airport', note: 'Incheon is Korea\'s main international airport', category: 'places' },
+            // Verbs
+            { korean: '먹다', romanized: 'Meokda', english: 'To eat', note: 'One of the most useful verbs you\'ll learn!', category: 'verbs' },
+            { korean: '마시다', romanized: 'Masida', english: 'To drink', note: 'Used for all beverages', category: 'verbs' },
+            { korean: '가다', romanized: 'Gada', english: 'To go', note: 'Fundamental movement verb', category: 'verbs' },
+            { korean: '오다', romanized: 'Oda', english: 'To come', note: 'Opposite of 가다 (to go)', category: 'verbs' },
+            { korean: '공부하다', romanized: 'Gongbuhada', english: 'To study', note: '공부 = study, 하다 = to do', category: 'verbs' },
+            { korean: '배우다', romanized: 'Baeuda', english: 'To learn', note: 'Like learning Korean right now!', category: 'verbs' },
+            // Adjectives
+            { korean: '맛있다', romanized: 'Masitda', english: 'Delicious', note: 'Literally "there is taste" — highest compliment for food', category: 'adjectives' },
+            { korean: '맵다', romanized: 'Maepda', english: 'Spicy', note: 'Very useful for Korean cuisine!', category: 'adjectives' },
+            { korean: '크다', romanized: 'Keuda', english: 'Big / Large', note: 'Describes size of objects or spaces', category: 'adjectives' },
+            { korean: '작다', romanized: 'Jakda', english: 'Small / Little', note: 'Opposite of 크다 (big)', category: 'adjectives' },
+            { korean: '좋다', romanized: 'Jota', english: 'Good / Nice', note: 'Very versatile — used for people, things, situations', category: 'adjectives' },
+            { korean: '예쁘다', romanized: 'Yeppeuda', english: 'Pretty / Beautiful', note: 'Used for people, objects, scenery', category: 'adjectives' },
+        ];
+
+        let deck = [];
+        let currentIndex = 0;
+        let gotIt = 0;
+        let learning = 0;
+        let revealed = false;
+        let currentFilter = 'all';
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            restartDeck();
+        }
+
+        function shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function restartDeck() {
+            deck = shuffle([...(currentFilter === 'all' ? allCards : allCards.filter(c => c.category === currentFilter))]);
+            currentIndex = 0;
+            gotIt = 0;
+            learning = 0;
+            revealed = false;
+            document.getElementById('completeScreen').classList.remove('show');
+            document.getElementById('cardArea').classList.remove('hide');
+            document.getElementById('controls').classList.remove('hide');
+            document.getElementById('progressRow').classList.remove('hide');
+            updateScores();
+            showCard();
+        }
+
+        function showCard() {
+            if (currentIndex >= deck.length) {
+                showComplete();
+                return;
+            }
+            const card = deck[currentIndex];
+            revealed = false;
+
+            const fc = document.getElementById('flashcard');
+            fc.classList.remove('revealed');
+
+            document.getElementById('sideLbl').textContent = 'Korean';
+            document.getElementById('catLbl').textContent = card.category.charAt(0).toUpperCase() + card.category.slice(1);
+            document.getElementById('koreanChar').style.display = '';
+            document.getElementById('romanized').style.display = '';
+            document.getElementById('tapHint').style.display = '';
+            document.getElementById('englishWord').style.display = 'none';
+            document.getElementById('englishNote').style.display = 'none';
+
+            document.getElementById('koreanChar').textContent = card.korean;
+            document.getElementById('romanized').textContent = card.romanized;
+
+            updateProgress();
+        }
+
+        function revealCard() {
+            const card = deck[currentIndex];
+            const fc = document.getElementById('flashcard');
+
+            if (!revealed) {
+                // Flip to English
+                revealed = true;
+                fc.classList.add('revealed');
+
+                document.getElementById('sideLbl').textContent = 'English';
+                document.getElementById('koreanChar').style.display = 'none';
+                document.getElementById('romanized').style.display = 'none';
+                document.getElementById('tapHint').style.display = 'none';
+
+                document.getElementById('englishWord').textContent = card.english;
+                document.getElementById('englishNote').textContent = card.note;
+                document.getElementById('englishWord').style.display = '';
+                document.getElementById('englishNote').style.display = '';
+            } else {
+                // Flip back to Korean
+                revealed = false;
+                fc.classList.remove('revealed');
+
+                document.getElementById('sideLbl').textContent = 'Korean';
+                document.getElementById('koreanChar').style.display = '';
+                document.getElementById('romanized').style.display = '';
+                document.getElementById('tapHint').style.display = '';
+
+                document.getElementById('englishWord').style.display = 'none';
+                document.getElementById('englishNote').style.display = 'none';
+            }
+        }
+
+        function markCard(correct) {
+            if (!revealed) {
+                revealCard();
+                return;
+            }
+            if (correct) gotIt++;
+            else learning++;
+            currentIndex++;
+            updateScores();
+            showCard();
+        }
+
+        function updateProgress() {
+            const total = deck.length;
+            const current = currentIndex + 1;
+            document.getElementById('progressLabel').textContent = current + ' / ' + total;
+            document.getElementById('progressFill').style.width = ((current / total) * 100) + '%';
+        }
+
+        function updateScores() {
+            document.getElementById('gotItCount').textContent = gotIt;
+            document.getElementById('learningCount').textContent = learning;
+            document.getElementById('remainCount').textContent = Math.max(0, deck.length - currentIndex);
+        }
+
+        function showComplete() {
+            document.getElementById('cardArea').classList.add('hide');
+            document.getElementById('controls').classList.add('hide');
+            document.getElementById('progressRow').classList.add('hide');
+            document.getElementById('completeScreen').classList.add('show');
+            document.getElementById('finalScore').textContent = gotIt;
+            const total = deck.length;
+            const pct = Math.round((gotIt / total) * 100);
+            let msg = '';
+            if (pct === 100) msg = '🎉 Perfect score! You\'re a Korean master!';
+            else if (pct >= 75) msg = '잘했어요! Great job — almost there!';
+            else if (pct >= 50) msg = '괜찮아요! Good effort — keep practicing!';
+            else msg = '화이팅! Don\'t give up — try again!';
+            document.getElementById('completeMsg').textContent = msg;
+        }
+
+        function reviewLearning() {
+            deck = shuffle(allCards.filter((_, i) => {
+                // rebuild learning deck — cards not marked correct
+                return true;
+            }));
+            // Just restart for now with same filter
+            restartDeck();
+        }
+
+        // Init
+        restartDeck();
+    </script>
+
+</body>
+</html>

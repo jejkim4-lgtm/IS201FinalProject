@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Jeemin Kim - Resume">
+    <meta name="author" content="Jeemin Kim">
+
+    <title>Jeemin Kim - Resume</title>
+
+    <!-- Custom fonts -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- SB Admin 2 CSS -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        /* ── Sidebar always visible, scales with screen width ── */
+
+        /* Desktop default */
+        :root { --sidebar-width: 225px; }
+
+        #accordionSidebar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 100vh;
+            width: var(--sidebar-width) !important;
+            z-index: 100;
+            overflow-y: auto;
+            transition: width 0.2s ease;
+        }
+
+        #content-wrapper {
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.2s ease;
+        }
+
+        /* Tablet (600px – 1024px): narrower sidebar with smaller text */
+        @media (max-width: 1024px) {
+            :root { --sidebar-width: 160px; }
+
+            .sidebar-brand { padding: 1rem 0.5rem !important; }
+            .sidebar-brand-text { font-size: 0.8rem !important; }
+            .nav-link { font-size: 0.78rem !important; padding: 0.5rem 0.75rem !important; }
+            .sidebar-heading { font-size: 0.58rem !important; padding: 0.6rem 0.75rem 0.25rem !important; }
+            .container-fluid { padding: 1.25rem !important; }
+        }
+
+        /* Mobile (<600px): icon-only sidebar */
+        @media (max-width: 600px) {
+            :root { --sidebar-width: 56px; }
+
+            .sidebar-brand-text,
+            .sidebar-heading,
+            .nav-link span { display: none !important; }
+
+            .sidebar-brand { padding: 1rem 0 !important; justify-content: center; }
+            .sidebar-brand-icon { margin-right: 0 !important; }
+
+            .nav-link {
+                text-align: center;
+                padding: 0.75rem 0 !important;
+                justify-content: center;
+            }
+
+            .nav-link i { font-size: 1.1rem !important; margin-right: 0 !important; }
+            .sidebar-divider { margin: 0.3rem 0 !important; }
+            .container-fluid { padding: 0.75rem !important; }
+            .card-body { padding: 0.85rem !important; }
+            h1.h2 { font-size: 1.4rem !important; }
+        }
+
+        /* Large screens */
+        @media (min-width: 1280px) {
+            .container-fluid { max-width: 1100px; padding: 2.5rem 3rem !important; }
+        }
+
+        /* ── Resume-specific styles ── */
+        .resume-entry {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e3e6f0;
+        }
+
+        .resume-entry:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .resume-entry-date {
+            font-size: 0.82rem;
+            color: #858796;
+            font-weight: 600;
+        }
+
+        .resume-entry-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #3a3b45;
+            margin: 0.2rem 0 0.1rem;
+        }
+
+        .resume-entry-org {
+            font-size: 0.83rem;
+            color: #858796;
+            margin-bottom: 0.4rem;
+        }
+
+        .resume-entry ul {
+            margin: 0.4rem 0 0 0;
+            padding-left: 1.2rem;
+        }
+
+        .resume-entry li {
+            font-size: 0.85rem;
+            color: #5a5c69;
+            margin-bottom: 0.25rem;
+            line-height: 1.5;
+        }
+
+        .skill-category {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #858796;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.4rem;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: #eef0f8;
+            color: #4e73df;
+            padding: 0.2rem 0.65rem;
+            border-radius: 3px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin: 0 0.3rem 0.35rem 0;
+        }
+
+        .contact-bar {
+            font-size: 0.85rem;
+            color: #858796;
+            margin-top: 0.4rem;
+        }
+
+        .contact-bar a {
+            color: #4e73df;
+            text-decoration: none;
+        }
+
+        .contact-bar a:hover { text-decoration: underline; }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="sidebar-brand-text mx-2">Jeemin Kim</div>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+
+            <!-- Sections -->
+            <div class="sidebar-heading">Sections</div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#education">
+                    <i class="fas fa-fw fa-graduation-cap"></i>
+                    <span>Education</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#experience">
+                    <i class="fas fa-fw fa-briefcase"></i>
+                    <span>Experience</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#skills">
+                    <i class="fas fa-fw fa-tools"></i>
+                    <span>Skills</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#awards">
+                    <i class="fas fa-fw fa-trophy"></i>
+                    <span>Awards</span>
+                </a>
+            </li>
+
+
+
+            <hr class="sidebar-divider">
+
+            <!-- Back to Top -->
+            <li class="nav-item">
+                <a class="nav-link" href="#page-top">
+                    <i class="fas fa-fw fa-arrow-up"></i>
+                    <span>Back to Top</span>
+                </a>
+            </li>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <div class="ml-3">
+                        <span class="font-weight-bold text-dark">Jeemin Kim</span>
+                        <span class="text-gray-500 ml-2">&mdash; Student &amp; Mentor</span>
+                    </div>
+                </nav>
+
+                <!-- Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="mb-4">
+                        <h1 class="h2 mb-1 text-gray-800">Jeemin Kim</h1>
+                        <p class="mb-2" style="color:#4e73df; font-weight:700; font-size:0.8rem; letter-spacing:0.08em;">STUDENT &amp; MENTOR</p>
+                        <div class="contact-bar">
+                            <a href="mailto:jeeminkim@outlook.com"><i class="fas fa-envelope fa-sm"></i> jeeminkim@outlook.com</a>
+                            &nbsp;&nbsp;<i class="fas fa-map-marker-alt fa-sm"></i> Provo, UT
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="card shadow mb-4" id="education">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <i class="fas fa-graduation-cap mr-1"></i> Education
+                            </h6>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="resume-entry">
+                                <div class="resume-entry-date">Sep 2025 – Present</div>
+                                <div class="resume-entry-title">Student</div>
+                                <div class="resume-entry-org">Brigham Young University — Utah</div>
+                                <ul>
+                                    <li>Currently enrolled and pursuing undergraduate studies</li>
+                                </ul>
+                            </div>
+
+                            <div class="resume-entry">
+                                <div class="resume-entry-date">Aug 2022 – Apr 2023</div>
+                                <div class="resume-entry-title">Student</div>
+                                <div class="resume-entry-org">Brigham Young University — Utah</div>
+                                <ul>
+                                    <li>Completed first year of undergraduate studies</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="card shadow mb-4" id="experience">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <i class="fas fa-briefcase mr-1"></i> Work Experience
+                            </h6>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="resume-entry">
+                                <div class="resume-entry-date">Present</div>
+                                <div class="resume-entry-title">In-Field Mentor</div>
+                                <ul>
+                                    <li>Communicate fluently in both English and Korean to support and guide individuals across diverse backgrounds</li>
+                                    <li>Coordinate efforts across multiple small teams to collaborate and provide support in their respective areas</li>
+                                    <li>Maintain accurate and timely records to track progress and ensure accountability</li>
+                                    <li>Achieved the Vision &amp; Alignment badge, recognizing expertise in leadership alignment, outcome-based instruction, and empowering others toward their goals</li>
+                                </ul>
+                            </div>
+
+                            <div class="resume-entry">
+                                <div class="resume-entry-date">Jul 2023 – Jul 2025</div>
+                                <div class="resume-entry-title">Service Volunteer</div>
+                                <ul>
+                                    <li>Spent full days proactively identifying and acting on opportunities to serve people, with or without prior connections</li>
+                                    <li>Quickly formed relationships with local leadership to collaborate on community service initiatives</li>
+                                    <li>Resolved technological problems for a 200-person organization and trained members on new software</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="card shadow mb-4" id="skills">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <i class="fas fa-tools mr-1"></i> Skills
+                            </h6>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="mb-3">
+                                <div class="skill-category">Interpersonal</div>
+                                <span class="skill-tag">Planning</span>
+                                <span class="skill-tag">Leadership</span>
+                                <span class="skill-tag">Teaching</span>
+                                <span class="skill-tag">Interpersonal Relations</span>
+                                <span class="skill-tag">Proactive Problem Solving</span>
+                                <span class="skill-tag">Team Coordination</span>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="skill-category">Professional</div>
+                                <span class="skill-tag">Record Keeping</span>
+                                <span class="skill-tag">Business Alignment</span>
+                                <span class="skill-tag">Student Learning Outcomes</span>
+                                <span class="skill-tag">Strategic Agility</span>
+                                <span class="skill-tag">Empowerment</span>
+                            </div>
+
+                            <div class="mb-1">
+                                <div class="skill-category">Languages</div>
+                                <span class="skill-tag">English (native)</span>
+                                <span class="skill-tag">Korean (native/fluent)</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Awards -->
+                    <div class="card shadow mb-4" id="awards">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <i class="fas fa-trophy mr-1"></i> Awards &amp; Honors
+                            </h6>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="resume-entry">
+                                <div class="resume-entry-date">Present</div>
+                                <div class="resume-entry-title">Vision &amp; Alignment Badge</div>
+                                <div class="resume-entry-org">In-Field Badging</div>
+                                <p style="font-size:0.85rem; color:#858796; margin:0.25rem 0 0;">
+                                    Awarded for demonstrating leadership alignment, outcome-based instruction, contextual teaching, purposeful instruction, and empowerment in a training context
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Jeemin Kim <span id="year"></span></span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <script>
+        // Footer year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Smooth scroll for anchor nav links
+        document.querySelectorAll('.nav-link[href^="#"]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+
+</body>
+</html>
